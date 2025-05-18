@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<figure class="image is-2by2" style="margin-top: -100px">
+  <img src="https://cdn.dribbble.com/users/1512427/screenshots/6201637/02.png">
+</figure>
+
+
+{% for i in snips %}
+
+<style>
+  .image{
+    display: none;
+  }
+</style>
+<div class="card" style="margin-bottom: 15px;">
+  <header class="card-header">
+    <p class="card-header-title">
+      {{i.link_code}}
+    </p>
+    <a href="{% url 'show_snips' i.link_code %}" class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-right" aria-hidden="true"></i>
+      </span>
+    </a>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      <pre style="  overflow: hidden;
+      max-height: 25ch;"><code class="language-{{i.lang}} line-numbers">{{i.text}}</code></pre>
+      <time datetime="2016-1-1">{{i.updated_at}}</time>
+      <div style="text-align: right;">
+      {% if user.is_authenticated and user == i.author %}
+      <a href="/delete_snippet/{{i.link_code}}" class="button is-danger is-rounded">Delete</a>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+  <!-- <footer class="card-footer">
+    <a href="#" class="card-footer-item">Save</a>
+    <a href="#" class="card-footer-item">Edit</a>
+    <a href="#" class="card-footer-item">Delete</a>
+  </footer> -->
+</div>
+{% endfor %}
+
+{% endblock %}
